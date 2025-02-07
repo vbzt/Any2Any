@@ -1,0 +1,23 @@
+.body{
+  width: 60%;
+  text-align: center;  
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2cqh;
+}
+
+.title{
+  font-weight: 500;
+  font-size: 5cqh;
+}
+
+.description{ 
+  font-size: 2cqh;
+  width: 80%;
+  text-align:justify;
+  color: #94a3b7;
+  font-weight: 400;
+
+
+}

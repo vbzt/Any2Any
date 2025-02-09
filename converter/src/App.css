@@ -1,7 +1,45 @@
 main{
   min-height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #00040F
+  flex-direction: column;
+  background-color: #00040F;
+  gap: 5cqh;
+}
+
+.fileConvert{ 
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5cqh;
+}
+
+ul{ 
+  width: 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2cqh;
+  padding: 0;
+}
+
+.add{ 
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+
+.add button{ 
+  width: 17%;
+  padding: 1.5cqh ;
+  background-color: #e4e4e4;
+  color: #00040F;
+  font-weight: 600;
+  font-size: 1.5cqh;
+  border-radius: 7px;
+  cursor: pointer;
 }

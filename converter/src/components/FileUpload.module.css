@@ -1,0 +1,30 @@
+.file{ 
+  width: 100%;
+  padding: 1.5cqh;
+  border: 1px solid #e4e4e42b;
+  border-radius: 12px;
+}
+
+.fileDesc{ 
+  display: flex;
+  align-items: end;
+  gap: 1cqh;
+  height: 100%;
+}
+
+.fileInfo{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.size{ 
+  font-size: 1.7cqh;
+  font-weight: 400;
+  color: #e4e4e496;
+}
+
+.remove{ 
+  background-color: transparent;
+  cursor: pointer;
+}

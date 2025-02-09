@@ -1,0 +1,23 @@
+.dropzone{ 
+  width: 65%;
+  border: 2px dashed #e4e4e42b;
+  border-radius: 12px;
+  height: 40cqh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 2.5cqh;
+  font-weight: 600;
+  gap: 2cqh;
+  cursor: pointer;
+}
+
+.dropzone:hover{
+  border: 2px dashed var(--colored)
+}
+
+.cloud, .upload{ 
+ width: 60px;
+ height: auto;
+}

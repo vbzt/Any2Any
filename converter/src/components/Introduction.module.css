@@ -1,5 +1,5 @@
 .body{
-  width: 60%;
+  width: 50%;
   text-align: center;  
   display: flex;
   align-items: center;
@@ -9,7 +9,7 @@
 
 .title{
   font-weight: 500;
-  font-size: 5cqh;
+  font-size: 5.5cqh;
 }
 
 .description{ 

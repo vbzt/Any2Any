@@ -4,8 +4,6 @@ import Introduction from './components/Introduction'
 import Dropzone from './components/Dropzone'
 import { useEffect, useState } from 'react'
 import FileUpload from './components/FileUpload'
-import { FFmpeg } from '@ffmpeg/ffmpeg'
-import { fetchFile } from '@ffmpeg/util'
 
 function App() {
   const [upload, setUpload] = useState(false)
@@ -14,11 +12,6 @@ function App() {
   const handleDrop = (acceptedFiles: File[]) => {
     setFiles(prevFiles => [...prevFiles, ...acceptedFiles])
     setUpload(true)
-  }
-
-  const handleConversion = async (file: File) => { 
-    const ffmpeg = new FFmpeg()
-    await ffmpeg.load() 
   }
 
   const removeFile = (fileToRemove: File) => {
@@ -48,12 +41,11 @@ function App() {
                   key={index} 
                   file={file} 
                   removeFile={removeFile}
-                  handleConversion = {handleConversion}
                 />
               ))}
             </ul>
             <div className="add">
-              <button >Convert files</button>
+              <button>Convert files</button>
             </div> 
           </section>         
         )}

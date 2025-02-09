@@ -1,19 +1,22 @@
+import { useEffect, useState } from 'react';
 import { FileImage, FileAudio, FileVideo, X } from 'lucide-react';
 import styles from './FileUpload.module.css';
 import CustomDropdown from './CustomDropdown'
+import { FFmpeg } from '@ffmpeg/ffmpeg'
+import { fetchFile } from '@ffmpeg/util'
 
 interface FileUploadProps {
   file: File;
-  removeFile: (file: File) => void
-  handleConversion: (file: File) => void
+  removeFile: (file: File) => void;
 }
 
 const FileUpload = ({ file, removeFile }: FileUploadProps) => {
-    const formatFileName = (name: string) => {
-    if (name.length <= 20) return name
-    const firstPart = name.slice(0, 10)
-    const lastPart = name.slice(-10)
-    return `${firstPart}...${lastPart}`
+  const [selectedFormat, setSelectedFormat] = useState<string>('')
+  const formatFileName = (name: string) => {
+    if (name.length <= 20) return name;
+    const firstPart = name.slice(0, 10);
+    const lastPart = name.slice(-10);
+    return `${firstPart}...${lastPart}`;
   };
 
   const setFileIcon = (type: string) => {
@@ -21,25 +24,29 @@ const FileUpload = ({ file, removeFile }: FileUploadProps) => {
     if (fileType === 'video') return <FileVideo />;
     if (fileType === 'image') return <FileImage />;
     if (fileType === 'audio') return <FileAudio />;
-    return null
+    return null;
   };
 
-  const fileType = file.type.split('/')[0]; 
+  const handleFormatChange = (newFormat: string) => {
+    setSelectedFormat(newFormat)
+  };
+
+  const fileType = file.type.split('/')[0];
+
+  const handleConversion = async () => {
+    return selectedFormat 
+  }
 
   return (
     <li className={styles.file} key={file.name}>
       <div className={styles.fileInfo}>
         <div className={styles.fileDesc}>
           {setFileIcon(file.type)}
-          <h3>
-            {formatFileName(file.name)}
-          </h3>
-          <span className={styles.size}>
-              {(file.size / 1024).toFixed(2)} KB
-          </span>
+          <h3>{formatFileName(file.name)}</h3>
+          <span className={styles.size}>{(file.size / 1024).toFixed(2)} KB</span>
         </div>
-        <CustomDropdown fileType={fileType as 'image' | 'video' | 'audio'} />
-        <button className= {styles.remove} onClick={() => removeFile(file)}><X /></button>
+        <CustomDropdown fileType={fileType as 'image' | 'video' | 'audio'} onFormatSelect={handleFormatChange} />
+        <button className={styles.remove} onClick={() => removeFile(file)}><X /></button>
       </div>
     </li>
   );

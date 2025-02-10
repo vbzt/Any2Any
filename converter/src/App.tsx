@@ -8,6 +8,8 @@ import FileUpload from './components/FileUpload'
 function App() {
   const [upload, setUpload] = useState(false)
   const [files, setFiles] = useState<File[]>([])
+  const [fileFormats, setFileFormats] = useState<Record<string, string>>({});
+
 
   const handleDrop = (acceptedFiles: File[]) => {
     setFiles(prevFiles => [...prevFiles, ...acceptedFiles])
@@ -16,7 +18,18 @@ function App() {
 
   const removeFile = (fileToRemove: File) => {
     setFiles(prevFiles => prevFiles.filter(file => file !== fileToRemove))
-    console.log(false)
+  }
+
+  const updateFileFormat = (fileName: string, fileFormat: string) => { 
+    setFileFormats(prevFormat => ({...prevFormat, [fileName]: fileFormat}))
+  }
+
+  const handleConvert = () => {
+    console.log('Arquivos:', files)
+    console.log('Formatos escolhidos:', fileFormats)
+    files.forEach((file, i) => {
+      console.log(i + ' ' + file.name)
+    })
   }
 
   useEffect(() => { 
@@ -36,16 +49,18 @@ function App() {
           (
           <section className= 'fileConvert'>
             <ul>
-              {files.map((file, index) => (
+              {files.map((file) => (
                 <FileUpload 
-                  key={index} 
+                  key={file.name} 
                   file={file} 
                   removeFile={removeFile}
+                  updateFileFormat={updateFileFormat}
                 />
               ))}
             </ul>
+
             <div className="add">
-              <button>Convert files</button>
+              <button onClick={handleConvert}>Convert files</button>
             </div> 
           </section>         
         )}

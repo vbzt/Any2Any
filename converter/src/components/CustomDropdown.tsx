@@ -1,28 +1,28 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { ChevronDownIcon } from "@radix-ui/react-icons";
-import styles from './CustomDropdown.module.css';
-import { useState } from 'react';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import { ChevronDownIcon } from "@radix-ui/react-icons"
+import { useState } from 'react'
+import styles from './CustomDropdown.module.css'
 
 const extensions = {
   image: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'ico', 'svg', 'tga'],
   video: ['mp4', 'avi', 'mov', 'wmv', 'mkv', 'ogv', 'webm'],
   audio: ['mp3', 'wav', 'ogg', 'aac', 'flac'],
-};
+}
 
 interface CustomDropdownProps {
-  fileType: 'image' | 'video' | 'audio';
-  onFormatSelect: (format: string) => void; // A função de callback
+  fileType: 'image' | 'video' | 'audio'
+  onFormatSelect: (format: string) => void
 }
 
 const CustomDropdown = ({ fileType, onFormatSelect }: CustomDropdownProps) => {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("")
 
-  const fileExtensions = extensions[fileType];
+  const fileExtensions = extensions[fileType]
 
   const handleSelect = (ext: string) => {
-    setSelected(ext);
-    onFormatSelect(ext); // Chama a função de callback para atualizar o estado no FileUpload
-  };
+    setSelected(ext)
+    onFormatSelect(ext)
+  }
 
   return (
     <section className={styles.dropdown}>
@@ -50,7 +50,7 @@ const CustomDropdown = ({ fileType, onFormatSelect }: CustomDropdownProps) => {
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     </section>
-  );
-};
+  )
+}
 
-export default CustomDropdown;
+export default CustomDropdown

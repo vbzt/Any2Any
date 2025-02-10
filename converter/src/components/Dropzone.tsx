@@ -34,4 +34,4 @@ const Dropzone = ({ onDrop }: DropzoneProps) => {
   )
 }
 
-export default Dropzone;
+export default Dropzone

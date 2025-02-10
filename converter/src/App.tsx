@@ -9,6 +9,7 @@ function App() {
   const [upload, setUpload] = useState(false)
   const [files, setFiles] = useState<File[]>([])
   const [fileFormats, setFileFormats] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(false)
 
 
   const handleDrop = (acceptedFiles: File[]) => {
@@ -23,6 +24,10 @@ function App() {
   const updateFileFormat = (fileName: string, fileFormat: string) => { 
     setFileFormats(prevFormat => ({...prevFormat, [fileName]: fileFormat}))
   }
+
+  const convertImage = (file: File) =>  {   
+
+  }   
 
   const handleConvert = () => {
     console.log('Arquivos:', files)

@@ -1,39 +1,37 @@
-import { useState } from 'react';
-import { FileImage, FileAudio, FileVideo, X } from 'lucide-react';
-import styles from './FileUpload.module.css';
+import { useState } from 'react'
+import { FileImage, FileAudio, FileVideo, X } from 'lucide-react'
+import styles from './FileUpload.module.css'
 import CustomDropdown from './CustomDropdown'
-import { FFmpeg } from '@ffmpeg/ffmpeg'
-import { fetchFile } from '@ffmpeg/util' 
 
 interface FileUploadProps {
-  file: File;
-  removeFile: (file: File) => void;
+  file: File
+  removeFile: (file: File) => void
   updateFileFormat: (fileName: string, format: string) => void
 }
 
 const FileUpload = ({ file, removeFile, updateFileFormat }: FileUploadProps) => {
   const [selectedFormat, setSelectedFormat] = useState<string>('')
   const formatFileName = (name: string) => {
-    if (name.length <= 20) return name;
-    const firstPart = name.slice(0, 10);
-    const lastPart = name.slice(-10);
-    return `${firstPart}...${lastPart}`;
-  };
+    if (name.length <= 20) return name
+    const firstPart = name.slice(0, 10)
+    const lastPart = name.slice(-10)
+    return `${firstPart}...${lastPart}`
+  }
 
   const setFileIcon = (type: string) => {
-    const fileType = type.split('/')[0];
-    if (fileType === 'video') return <FileVideo />;
-    if (fileType === 'image') return <FileImage />;
-    if (fileType === 'audio') return <FileAudio />;
-    return null;
-  };
+    const fileType = type.split('/')[0]
+    if (fileType === 'video') return <FileVideo />
+    if (fileType === 'image') return <FileImage />
+    if (fileType === 'audio') return <FileAudio />
+    return null
+  }
 
   const handleFormatChange = (newFormat: string) => {
     setSelectedFormat(newFormat)
-    updateFileFormat(file.name, newFormat);
-  };
+    updateFileFormat(file.name, newFormat)
+  }
 
-  const fileType = file.type.split('/')[0];
+  const fileType = file.type.split('/')[0]
 
 
   return (
@@ -48,7 +46,7 @@ const FileUpload = ({ file, removeFile, updateFileFormat }: FileUploadProps) => 
         <button className={styles.remove} onClick={() => removeFile(file)}><X /></button>
       </div>
     </li>
-  );
-};
+  )
+}
 
-export default FileUpload;
+export default FileUpload

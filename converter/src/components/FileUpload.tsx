@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { FileImage, FileAudio, FileVideo, X } from 'lucide-react'
 import styles from './FileUpload.module.css'
 import CustomDropdown from './CustomDropdown'
@@ -10,7 +9,6 @@ interface FileUploadProps {
 }
 
 const FileUpload = ({ file, removeFile, updateFileFormat }: FileUploadProps) => {
-  const [selectedFormat, setSelectedFormat] = useState<string>('')
   const formatFileName = (name: string) => {
     if (name.length <= 20) return name
     const firstPart = name.slice(0, 10)
@@ -27,8 +25,8 @@ const FileUpload = ({ file, removeFile, updateFileFormat }: FileUploadProps) => 
   }
 
   const handleFormatChange = (newFormat: string) => {
-    setSelectedFormat(newFormat)
     updateFileFormat(file.name, newFormat)
+    
   }
 
   const fileType = file.type.split('/')[0]

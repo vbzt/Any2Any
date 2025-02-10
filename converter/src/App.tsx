@@ -5,12 +5,14 @@ import Dropzone from './components/Dropzone'
 import { useEffect, useState } from 'react'
 import FileUpload from './components/FileUpload'
 
+import { FFmpeg } from '@ffmpeg/ffmpeg'
+import { fetchFile } from '@ffmpeg/util'
+
 function App() {
   const [upload, setUpload] = useState(false)
   const [files, setFiles] = useState<File[]>([])
-  const [fileFormats, setFileFormats] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false)
-
+  const [fileFormats, setFileFormats] = useState({});
+  const ffmpeg = new FFmpeg()
 
   const handleDrop = (acceptedFiles: File[]) => {
     setFiles(prevFiles => [...prevFiles, ...acceptedFiles])
@@ -22,26 +24,65 @@ function App() {
   }
 
   const updateFileFormat = (fileName: string, fileFormat: string) => { 
-    setFileFormats(prevFormat => ({...prevFormat, [fileName]: fileFormat}))
+    setFileFormats(prevFormat => ({ ...prevFormat, [fileName]: fileFormat }))
   }
 
-  const convertImage = (file: File) =>  {   
+  const loadFFmpeg = async () => {
+    if (!ffmpeg.loaded) {
+      console.log('Loading FFmpeg...');
+      await ffmpeg.load()
+    }
+  }
 
-  }   
+  const convertImage = async (file: File, newFormat: string) => {
+    try {
+      await loadFFmpeg()
 
-  const handleConvert = () => {
-    console.log('Arquivos:', files)
-    console.log('Formatos escolhidos:', fileFormats)
-    files.forEach((file, i) => {
-      console.log(i + ' ' + file.name)
-    })
+      const newFile = `${file.name.split('.')[0]}.${newFormat}`
+      console.log(`Converting ${file.name} to ${newFile}`);
+
+      // Write file to FFmpeg virtual file system
+      await ffmpeg.writeFile(file.name, await fetchFile(file))
+
+      // Run the conversion
+      await ffmpeg.exec(['-i', file.name, newFile])
+
+      // Read the converted file back from FFmpeg virtual file system
+      const data = await ffmpeg.readFile(newFile)
+      const url = URL.createObjectURL(new Blob([data], { type: `image/${newFormat}` }))
+      
+      console.log(`File converted to: ${url}`)
+
+      // You can now download the converted file if you want
+      const a = document.createElement('a')
+      a.href = url
+      a.download = newFile
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      
+    } catch (error) {
+      console.error('Error converting image:', error)
+      alert('An error occurred during conversion. Please try again.')
+    }
+  }
+
+  const handleConvert = async () => {
+    // Ensure that all files are processed
+    for (const [fileName, newFormat] of Object.entries(fileFormats)) {
+      const file = files.find(f => f.name === fileName)
+      if (file) {
+        console.log(`Starting conversion for: ${file.name}`);
+        await convertImage(file, String(newFormat))
+      }
+    }
   }
 
   useEffect(() => { 
-    if(files.length === 0){
+    if (files.length === 0) {
       setUpload(false)
     }
-  }, [upload, files])
+  }, [files])
 
   return (
     <>
@@ -52,7 +93,7 @@ function App() {
           <Dropzone onDrop={handleDrop} />) 
           : 
           (
-          <section className= 'fileConvert'>
+          <section className='fileConvert'>
             <ul>
               {files.map((file) => (
                 <FileUpload 
@@ -63,7 +104,6 @@ function App() {
                 />
               ))}
             </ul>
-
             <div className="add">
               <button onClick={handleConvert}>Convert files</button>
             </div> 
@@ -74,4 +114,4 @@ function App() {
   )
 }
 
-export default App;
+export default App

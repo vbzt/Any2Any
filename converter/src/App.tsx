@@ -9,9 +9,11 @@ import { FFmpeg } from '@ffmpeg/ffmpeg'
 import { fetchFile } from '@ffmpeg/util'
 
 function App() {
-  const [upload, setUpload] = useState(false)
+  const [upload, setUpload] = useState<boolean>(false)
   const [files, setFiles] = useState<File[]>([])
-  const [fileFormats, setFileFormats] = useState({});
+  const [fileFormats, setFileFormats] = useState({})
+  const [loading, setLoading] = useState<boolean>(false)
+  const [convertingError, setConvertingError] = useState<boolean>(false)
   const ffmpeg = new FFmpeg()
 
   const handleDrop = (acceptedFiles: File[]) => {
@@ -36,39 +38,28 @@ function App() {
 
   const convertImage = async (file: File, newFormat: string) => {
     try {
+      setLoading(true)
       await loadFFmpeg()
 
       const newFile = `${file.name.split('.')[0]}.${newFormat}`
-      console.log(`Converting ${file.name} to ${newFile}`);
-
-      // Write file to FFmpeg virtual file system
       await ffmpeg.writeFile(file.name, await fetchFile(file))
-
-      // Run the conversion
       await ffmpeg.exec(['-i', file.name, newFile])
-
-      // Read the converted file back from FFmpeg virtual file system
       const data = await ffmpeg.readFile(newFile)
       const url = URL.createObjectURL(new Blob([data], { type: `image/${newFormat}` }))
-      
-      console.log(`File converted to: ${url}`)
-
-      // You can now download the converted file if you want
       const a = document.createElement('a')
       a.href = url
       a.download = newFile
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
-      
+      setLoading(false)
     } catch (error) {
       console.error('Error converting image:', error)
-      alert('An error occurred during conversion. Please try again.')
+      setConvertingError(true)
     }
   }
 
   const handleConvert = async () => {
-    // Ensure that all files are processed
     for (const [fileName, newFormat] of Object.entries(fileFormats)) {
       const file = files.find(f => f.name === fileName)
       if (file) {
@@ -101,6 +92,8 @@ function App() {
                   file={file} 
                   removeFile={removeFile}
                   updateFileFormat={updateFileFormat}
+                  loading = {loading}
+                  convertingError = {convertingError}
                 />
               ))}
             </ul>

@@ -1,14 +1,22 @@
 import { FileImage, FileAudio, FileVideo, X } from 'lucide-react'
 import styles from './FileUpload.module.css'
 import CustomDropdown from './CustomDropdown'
+import { useEffect } from 'react'
 
 interface FileUploadProps {
   file: File
   removeFile: (file: File) => void
-  updateFileFormat: (fileName: string, format: string) => void
+  updateFileFormat: (fileName: string, format: string) => void,
+  loading: boolean,
+  convertingError: boolean,
 }
 
-const FileUpload = ({ file, removeFile, updateFileFormat }: FileUploadProps) => {
+const FileUpload = ({ file, removeFile, updateFileFormat, loading }: FileUploadProps) => {
+
+    useEffect(() => {
+      console.log('MUDOU!!!!')
+    }, [loading])
+
   const formatFileName = (name: string) => {
     if (name.length <= 20) return name
     const firstPart = name.slice(0, 10)

@@ -5,9 +5,15 @@
   border-radius: 12px;
 }
 
+.fileTitle{ 
+  width: 20em;
+  display: flex;
+  gap: 1cqh;
+}
+
 .fileDesc{ 
   display: flex;
-  align-items: end;
+  align-items: center;
   gap: 1cqh;
   height: 100%;
 }
@@ -22,6 +28,33 @@
   font-size: 1.7cqh;
   font-weight: 400;
   color: #e4e4e496;
+}
+
+.progress, .done, .error{ 
+  background-color: #e4e4e4;
+  border-radius: 12px;
+  font-size: 1.3cqh;
+  font-weight: 600;
+  color: #00040F;
+  padding: 5px 1cqh;
+}
+
+.check{ 
+  width: 13px;
+  height: auto;
+}
+
+.done, .error{ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .7cqh;
+  background-color: var(--success);
+}
+
+.error{ 
+  background-color: var(--error);
+  color: #e4e4e4;
 }
 
 .remove{ 

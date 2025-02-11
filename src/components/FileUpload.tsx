@@ -1,4 +1,4 @@
-import { FileImage, FileAudio, FileVideo, X } from 'lucide-react'
+import { FileImage, FileAudio, FileVideo, X, Check, TriangleAlert } from 'lucide-react'
 import styles from './FileUpload.module.css'
 import CustomDropdown from './CustomDropdown'
 import { useEffect } from 'react'
@@ -6,17 +6,11 @@ import { useEffect } from 'react'
 interface FileUploadProps {
   file: File
   removeFile: (file: File) => void
-  updateFileFormat: (fileName: string, format: string) => void,
-  loading: boolean,
-  convertingError: boolean,
+  updateFileFormat: (fileName: string, format: string) => void
+  status: 'pending' | 'loading' | 'done' | 'error'
 }
 
-const FileUpload = ({ file, removeFile, updateFileFormat, loading }: FileUploadProps) => {
-
-    useEffect(() => {
-      console.log('MUDOU!!!!')
-    }, [loading])
-
+const FileUpload = ({ file, removeFile, updateFileFormat, status }: FileUploadProps) => {
   const formatFileName = (name: string) => {
     if (name.length <= 20) return name
     const firstPart = name.slice(0, 10)
@@ -34,21 +28,39 @@ const FileUpload = ({ file, removeFile, updateFileFormat, loading }: FileUploadP
 
   const handleFormatChange = (newFormat: string) => {
     updateFileFormat(file.name, newFormat)
-    
   }
 
   const fileType = file.type.split('/')[0]
-
+  const formatFileSize = (size: number) => {
+    if (size >= 1024 * 1024) {
+      return `${(size / (1024 * 1024)).toFixed(2)} MB`
+    }
+    return `${(size / 1024).toFixed(2)} KB`
+  }
+  
 
   return (
     <li className={styles.file} key={file.name}>
       <div className={styles.fileInfo}>
         <div className={styles.fileDesc}>
           {setFileIcon(file.type)}
-          <h3>{formatFileName(file.name)}</h3>
-          <span className={styles.size}>{(file.size / 1024).toFixed(2)} KB</span>
+          <div className = {styles.fileTitle}>
+            <h3>{formatFileName(file.name)}</h3>
+            <span className={styles.size}>{formatFileSize(file.size)}</span>
+
+          </div>
         </div>
-        <CustomDropdown fileType={fileType as 'image' | 'video' | 'audio'} onFormatSelect={handleFormatChange} />
+
+        {status === 'pending' && (
+          <CustomDropdown fileType={fileType as 'image' | 'video' | 'audio'} onFormatSelect={handleFormatChange} />
+        )}
+
+        {status === 'loading' && <div className={styles.progress}>Converting...</div>}
+
+        {status === 'done' && <div className={styles.done}>Done <Check color='#00040F' className={styles.check} /></div>}
+
+        {status === 'error' && <div className={styles.error}>Error converting file <TriangleAlert color='#e4e4e4' className={styles.check} /></div>}
+
         <button className={styles.remove} onClick={() => removeFile(file)}><X /></button>
       </div>
     </li>

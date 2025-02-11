@@ -4,7 +4,7 @@ import { useState } from 'react'
 import styles from './CustomDropdown.module.css'
 
 const extensions = {
-  image: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'ico', 'svg', 'tga'],
+  image: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'ico', 'tga'],
   video: ['mp4', 'avi', 'mov', 'wmv', 'mkv', 'ogv', 'webm'],
   audio: ['mp3', 'wav', 'ogg', 'aac', 'flac'],
 }

@@ -5,7 +5,7 @@ import styles from './CustomDropdown.module.css'
 
 const extensions = {
   image: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'ico', 'tga'],
-  video: ['mp4', 'avi', 'mov', 'wmv', 'mkv', 'ogv', 'webm'],
+  video: ['mp4', 'avi', 'mov', 'wmv', 'mkv', 'ogv', 'webm', 'mp3'],
   audio: ['mp3', 'wav', 'ogg', 'aac', 'flac'],
 }
 

@@ -2,6 +2,7 @@ import { FileImage, FileAudio, FileVideo, X, Check, TriangleAlert } from 'lucide
 import styles from './FileUpload.module.css'
 import CustomDropdown from './CustomDropdown'
 import { useEffect } from 'react'
+import { Spinner } from '@radix-ui/themes'
 
 interface FileUploadProps {
   file: File
@@ -12,9 +13,9 @@ interface FileUploadProps {
 
 const FileUpload = ({ file, removeFile, updateFileFormat, status }: FileUploadProps) => {
   const formatFileName = (name: string) => {
-    if (name.length <= 20) return name
+    if (name.length <= 16) return name
     const firstPart = name.slice(0, 10)
-    const lastPart = name.slice(-10)
+    const lastPart = name.slice(-6)
     return `${firstPart}...${lastPart}`
   }
 
@@ -55,9 +56,9 @@ const FileUpload = ({ file, removeFile, updateFileFormat, status }: FileUploadPr
           <CustomDropdown fileType={fileType as 'image' | 'video' | 'audio'} onFormatSelect={handleFormatChange} />
         )}
 
-        {status === 'loading' && <div className={styles.progress}>Converting...</div>}
+        {status === 'loading' && <div className={styles.progress}>Converting... <Spinner size= '1'/></div>}
 
-        {status === 'done' && <div className={styles.done}>Done <Check color='#00040F' className={styles.check} /></div>}
+        {status === 'done' && <div className={styles.done}>Done <Check color='#e4e4e4' className={styles.check} /></div>}
 
         {status === 'error' && <div className={styles.error}>Error converting file <TriangleAlert color='#e4e4e4' className={styles.check} /></div>}
 

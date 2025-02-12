@@ -31,12 +31,16 @@
 }
 
 .progress, .done, .error{ 
-  background-color: #e4e4e4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ddeaf814;
   border-radius: 12px;
   font-size: 1.3cqh;
-  font-weight: 600;
-  color: #00040F;
+  font-weight: 500;
+  color: #e4e4e4;
   padding: 5px 1cqh;
+  gap: 1cqh;
 }
 
 .check{ 
@@ -49,7 +53,7 @@
   align-items: center;
   justify-content: center;
   gap: .7cqh;
-  background-color: var(--success);
+  background-color: var(--colored);
 }
 
 .error{ 

@@ -26,15 +26,15 @@ ul{
   padding: 0;
 }
 
-.add{ 
+.add, .loading, .done{ 
   width: 100%;
   display: flex;
   justify-content: end;
 }
 
 
-.add button{ 
-  width: 17%;
+.add button, .done button, .loading button{ 
+  width: 20%;
   padding: 1.5cqh ;
   background-color: #e4e4e4;
   color: #00040F;
@@ -42,4 +42,12 @@ ul{
   font-size: 1.5cqh;
   border-radius: 7px;
   cursor: pointer;
+}
+
+.loading button{ 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ddeaf814;
+  cursor: not-allowed;
 }

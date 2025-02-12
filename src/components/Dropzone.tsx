@@ -4,7 +4,7 @@ import { CloudUpload, Upload } from 'lucide-react'
 
 type DropzoneProps = {
   onDrop: (acceptedFiles: File[]) => void
-};
+}
 
 const Dropzone = ({ onDrop }: DropzoneProps) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

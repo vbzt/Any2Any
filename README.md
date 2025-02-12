@@ -1,50 +1,24 @@
-# React + TypeScript + Vite
+# Any2Any
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Any2Any** is an open-source, client-side tool designed for unlimited and free multimedia file conversion. With Any2Any, you can easily convert images, audio, and video files between various formats—without any restrictions. The tool ensures your privacy and security by performing all processing locally on your device.
 
-Currently, two official plugins are available:
+## Technologies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> This project is bootstrapped by Vite with: 
 
-## Expanding the ESLint configuration
+<code>npm create vite@latest</code>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Deploy
+You can acess this project [here](https://anytoany.vercel.app)
+> This project is uploaded on [vercel](https://vercel.app)
 
-- Configure the top-level `parserOptions` property like this:
+## Project scripts
+<code>npm run dev</code>
+Runs the app in the development mode.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+<code>npm run build</code>
+Builds the app for production.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## License
+This project is under [MIT](LICENSE). See the file [LICENSE](LICENSE) for more details.

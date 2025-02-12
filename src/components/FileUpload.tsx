@@ -1,7 +1,6 @@
 import { FileImage, FileAudio, FileVideo, X, Check, TriangleAlert } from 'lucide-react'
 import styles from './FileUpload.module.css'
 import CustomDropdown from './CustomDropdown'
-import { useEffect } from 'react'
 import { Spinner } from '@radix-ui/themes'
 
 interface FileUploadProps {

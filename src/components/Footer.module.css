@@ -1,0 +1,12 @@
+.footer{
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  bottom: 0;
+  width: 100%;
+  padding: 2.5cqh 6cqh;
+}
+
+.github{
+  text-decoration: underline;
+}

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { FFmpeg } from '@ffmpeg/ffmpeg'
 import { fetchFile } from '@ffmpeg/util'
 import { Spinner } from '@radix-ui/themes'
+import Footer from './components/Footer'
 
 function App() {
 
@@ -229,7 +230,10 @@ function App() {
               )}
           </section>
         )}
+
+        <Footer/>
       </main>
+
     </>
   )
 }

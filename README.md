@@ -4,7 +4,7 @@
 
 ## Technologies
 
-> This project is bootstrapped by Vite with: 
+> This project is bootstrapped by Vite + TS with: 
 
 <code>npm create vite@latest</code>
 

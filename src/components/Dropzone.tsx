@@ -1,6 +1,7 @@
 import { useDropzone } from 'react-dropzone'
 import styles from './Dropzone.module.css'
 import { CloudUpload, Upload } from 'lucide-react'
+import { toast } from 'sonner'
 
 type DropzoneProps = {
   onDrop: (acceptedFiles: File[]) => void
@@ -9,6 +10,7 @@ type DropzoneProps = {
 const Dropzone = ({ onDrop }: DropzoneProps) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    onDropRejected: () => { toast.error('Only images, audios and videos are accepted!')},
     accept: {
       'image/*': [],  
       'audio/*': [], 

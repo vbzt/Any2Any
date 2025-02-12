@@ -9,6 +9,7 @@ import { FFmpeg } from '@ffmpeg/ffmpeg'
 import { fetchFile } from '@ffmpeg/util'
 import { Spinner } from '@radix-ui/themes'
 import Footer from './components/Footer'
+import { Toaster } from 'sonner'
 
 function App() {
 
@@ -157,7 +158,14 @@ function App() {
         const fileType = file.type.split('/')[0]
   
         switch(fileType){
-          case 'video': await convertVideo(file, newFormat); break
+          case 'video': 
+            if(newFormat === 'mp3'){
+              await convertAudio(file, newFormat)
+              break
+            }
+            await convertVideo(file, newFormat)
+            
+          ; break
           case 'image': await convertImage(file, newFormat); break
           case 'audio': await convertAudio(file, newFormat);break
         }
@@ -192,6 +200,8 @@ function App() {
 
   return (
     <>
+    
+    <Toaster theme='dark' richColors />
       <Header />
       <main>
         <Introduction />

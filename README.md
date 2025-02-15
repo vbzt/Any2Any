@@ -1,6 +1,6 @@
 # Any2Any
 
-**Any2Any** is an open-source, client-side tool designed for unlimited and free multimedia file conversion. With Any2Any, you can easily convert images, audio, and video files between various formats—without any restrictions. The tool ensures your privacy and security by performing all processing locally on your device.
+**Any2Any** is an open-source, client-side tool designed for unlimited and free multimedia file conversion. With Any2Any, you can easily convert images, audio, and video files between various formats without any restrictions. The tool ensures your privacy and security by performing all processing locally on your device.
 
 ## Technologies
 

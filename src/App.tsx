@@ -1,14 +1,13 @@
 import './App.css'
-import Header from './components/Header'
-import Introduction from './components/Introduction'
-import Dropzone from './components/Dropzone'
-import FileUpload from './components/FileUpload'
+import Introduction from './components/Introduction/Introduction'
+import Dropzone from './components/Dropzone/Dropzone'
+import FileUpload from './components/FileUpload/FileUpload'
 import { useEffect, useState } from 'react'
 
 import { FFmpeg } from '@ffmpeg/ffmpeg'
 import { fetchFile } from '@ffmpeg/util'
 import { Spinner } from '@radix-ui/themes'
-import Footer from './components/Footer'
+import Footer from './components/Footer/Footer'
 import { Toaster } from 'sonner'
 
 function App() {
@@ -202,7 +201,6 @@ function App() {
     <>
     
     <Toaster theme='dark' richColors />
-      <Header />
       <main>
         <Introduction />
         {!upload ? (

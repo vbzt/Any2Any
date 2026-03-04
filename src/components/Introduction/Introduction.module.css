@@ -1,5 +1,5 @@
 .body{
-  width: 50%;
+  width: 100%;
   text-align: center;  
   display: flex;
   align-items: center;
@@ -14,7 +14,7 @@
 
 .description{ 
   font-size: 2cqh;
-  width: 80%;
+  width: 100%;
   text-align:justify;
   color: #94a3b7;
   font-weight: 400;

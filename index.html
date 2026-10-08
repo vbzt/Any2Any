@@ -1,16 +1,28 @@
 <!doctype html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/Frame.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Any2Any</title>
-</head>
-
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
-
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#15171b" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="converta imagens, áudio e vídeo no seu navegador. gratuito, com processamento local e download individual." />
+    <title>any2any · conversor de arquivos</title>
+    <script>
+      (() => {
+        let theme = 'dark';
+        try {
+          if (localStorage.getItem('any2any-theme') === 'light') theme = 'light';
+        } catch {}
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('link[rel="icon"]').href = theme === 'dark' ? '/favicon.svg' : '/favicon-light.svg';
+        document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#15171b' : '#f4f3ef';
+        document.querySelector('meta[name="color-scheme"]').content = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

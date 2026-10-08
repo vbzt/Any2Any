@@ -1,37 +1,44 @@
-import { useDropzone } from 'react-dropzone'
-import styles from './Dropzone.module.css'
-import { CloudUpload, Upload } from 'lucide-react'
-import { toast } from 'sonner'
+import { useRef, useState } from 'react'
+import { Upload } from 'lucide-react'
+import { fileAccept } from '../../lib/files'
 
-type DropzoneProps = {
-  onDrop: (acceptedFiles: File[]) => void
+interface DropzoneProps {
+  onDrop: (files: File[]) => void
+  disabled: boolean
+  compact: boolean
 }
 
-const Dropzone = ({ onDrop }: DropzoneProps) => {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    onDropRejected: () => { toast.error('Only images, audios and videos are accepted!')},
-    accept: {
-      'image/*': [],  
-      'audio/*': [], 
-      'video/*': []
-    },
-  })
+const Dropzone = ({ onDrop, disabled, compact }: DropzoneProps) => {
+  const input = useRef<HTMLInputElement>(null)
+  const dragDepth = useRef(0)
+  const [dragging, setDragging] = useState(false)
 
   return (
-    <div className={styles.dropzone} {...getRootProps()}>
-      <input {...getInputProps()} />
-      {isDragActive ? (
-        <>
-          <Upload className={styles.upload} />
-          <p>Yea, right here</p>
-        </>
-      ) : (
-        <>
-          <CloudUpload className={styles.cloud} />
-          <p>Click, or drag your files here</p>
-        </>
-      )}
+    <div className={`dropzone ${compact ? 'dropzone-compact' : ''} ${dragging ? 'is-dragging' : ''} ${disabled ? 'is-disabled' : ''}`}
+      onDragEnter={event => {
+        event.preventDefault()
+        dragDepth.current += 1
+        if (!disabled) setDragging(true)
+      }}
+      onDragOver={event => { event.preventDefault(); event.dataTransfer.dropEffect = disabled ? 'none' : 'copy' }}
+      onDragLeave={event => { event.preventDefault(); dragDepth.current -= 1; if (dragDepth.current <= 0) setDragging(false) }}
+      onDrop={event => {
+        event.preventDefault()
+        dragDepth.current = 0
+        setDragging(false)
+        if (!disabled) onDrop(Array.from(event.dataTransfer.files))
+      }}>
+      <input ref={input} type="file" multiple accept={fileAccept} hidden disabled={disabled}
+        aria-label="selecionar arquivos"
+        onChange={event => { onDrop(Array.from(event.target.files ?? [])); event.target.value = '' }} />
+      <Upload size={28} strokeWidth={1.5} aria-hidden="true" />
+      <div className="dropzone-copy">
+        <p>{dragging ? 'solte os arquivos' : compact ? 'adicione mais arquivos' : 'arraste seus arquivos aqui'}</p>
+        <span>imagens, áudio e vídeo · até 200 mb por arquivo</span>
+      </div>
+      <button type="button" className="primary-button" disabled={disabled} onClick={() => input.current?.click()}>
+        {compact ? 'adicionar arquivos' : 'selecionar arquivos'}
+      </button>
     </div>
   )
 }

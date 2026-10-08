@@ -1,11 +1,8 @@
-import styles from './Footer.module.css'
-
-const Footer = () => {
-  return (
-    <footer className = {styles.footer}>
-       <p>Made with 💙 by <a className = {styles.github} target="_blank" href="https://github.com/vbzt/Any2Any">vbzt</a> &copy;.</p>
-    </footer>
-  )
-}
+const Footer = () => (
+  <footer className="site-footer">
+    <p>any2any <span>·</span> feito por <a href="https://github.com/vbzt" target="_blank" rel="noopener noreferrer">vbzt</a></p>
+    <a href="https://github.com/vbzt/Any2Any" target="_blank" rel="noopener noreferrer">ver código no github</a>
+  </footer>
+)
 
 export default Footer

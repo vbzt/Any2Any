@@ -1,68 +1,49 @@
-import { FileImage, FileAudio, FileVideo, X, Check, TriangleAlert } from 'lucide-react'
-import styles from './FileUpload.module.css'
+import { FileImage, FileAudio, FileVideo, X, Check, LoaderCircle, RotateCcw, Download, CircleAlert } from 'lucide-react'
 import CustomDropdown from '../CustomDropdown/CustomDropdown'
-import { Spinner } from '@radix-ui/themes'
+import { formatSize } from '../../lib/files'
+import type { QueueFile } from '../../lib/files'
 
 interface FileUploadProps {
-  file: File
-  removeFile: (file: File) => void
-  updateFileFormat: (fileName: string, format: string) => void
-  status: 'pending' | 'loading' | 'done' | 'error'
+  item: QueueFile
+  disabled: boolean
+  removeFile: (id: string) => void
+  updateFileFormat: (id: string, format: string) => void
+  retry: (id: string) => void
 }
 
-const FileUpload = ({ file, removeFile, updateFileFormat, status }: FileUploadProps) => {
-  const formatFileName = (name: string) => {
-    if (name.length <= 16) return name
-    const firstPart = name.slice(0, 10)
-    const lastPart = name.slice(-6)
-    return `${firstPart}...${lastPart}`
-  }
+const labels = { image: 'imagem', audio: 'áudio', video: 'vídeo' }
+const statuses = { pending: 'aguardando', queued: 'na fila', converting: 'convertendo', done: 'pronto', error: 'falhou' }
 
-  const setFileIcon = (type: string) => {
-    const fileType = type.split('/')[0]
-    if (fileType === 'video') return <FileVideo />
-    if (fileType === 'image') return <FileImage />
-    if (fileType === 'audio') return <FileAudio />
-    return null
-  }
-
-  const handleFormatChange = (newFormat: string) => {
-    updateFileFormat(file.name, newFormat)
-  }
-
-  const fileType = file.type.split('/')[0]
-  const formatFileSize = (size: number) => {
-    if (size >= 1024 * 1024) {
-      return `${(size / (1024 * 1024)).toFixed(2)} MB`
-    }
-    return `${(size / 1024).toFixed(2)} KB`
-  }
-  
-
+const FileUpload = ({ item, disabled, removeFile, updateFileFormat, retry }: FileUploadProps) => {
+  const Icon = { image: FileImage, audio: FileAudio, video: FileVideo }[item.kind]
   return (
-    <li className={styles.file} key={file.name}>
-      <div className={styles.fileInfo}>
-        <div className={styles.fileDesc}>
-          {setFileIcon(file.type)}
-          <div className = {styles.fileTitle}>
-            <h3>{formatFileName(file.name)}</h3>
-            <span className={styles.size}>{formatFileSize(file.size)}</span>
-
-          </div>
+    <li className={`file-row ${item.status === 'error' ? 'file-row-error' : ''}`}>
+      <div className="file-main">
+        <Icon className="file-icon" size={24} strokeWidth={1.5} aria-hidden="true" />
+        <div className="file-info">
+          <h4 title={item.file.name}>{item.file.name}</h4>
+          <p>{labels[item.kind]} <span>·</span> {formatSize(item.file.size)}</p>
         </div>
-
-        {status === 'pending' && (
-          <CustomDropdown fileType={fileType as 'image' | 'video' | 'audio'} onFormatSelect={handleFormatChange} />
-        )}
-
-        {status === 'loading' && <div className={styles.progress}>Converting... <Spinner size= '1'/></div>}
-
-        {status === 'done' && <div className={styles.done}>Done <Check color='#e4e4e4' className={styles.check} /></div>}
-
-        {status === 'error' && <div className={styles.error}>Error converting file <TriangleAlert color='#e4e4e4' className={styles.check} /></div>}
-
-        <button className={styles.remove} onClick={() => removeFile(file)}><X /></button>
       </div>
+      <CustomDropdown id={`format-${item.id}`} fileName={item.file.name} fileType={item.kind}
+        value={item.format} disabled={disabled} onFormatSelect={format => updateFileFormat(item.id, format)} />
+      <span className={`file-status status-${item.status}`}>
+        {item.status === 'converting' && <LoaderCircle className="spinner" size={15} aria-hidden="true" />}
+        {item.status === 'done' && <Check size={15} aria-hidden="true" />}
+        {item.status === 'error' && <CircleAlert size={15} aria-hidden="true" />}
+        {statuses[item.status]}
+      </span>
+      <div className="file-actions">
+        {item.result && <a className="download-button" href={item.result.url} download={item.result.name} aria-label={`baixar ${item.result.name}`}>
+          <Download size={16} aria-hidden="true" /><span>baixar</span>
+        </a>}
+        {item.status === 'error' && <button type="button" className="icon-button" disabled={disabled}
+          aria-label={`tentar novamente ${item.file.name}`} onClick={() => retry(item.id)}><RotateCcw size={17} aria-hidden="true" /></button>}
+        <button type="button" className="icon-button remove-button" disabled={disabled}
+          aria-label={`remover ${item.file.name}`} onClick={() => removeFile(item.id)}><X size={18} aria-hidden="true" /></button>
+      </div>
+      {item.error && <p className="file-error" role="alert">{item.error}</p>}
+      {item.result && <p className="result-info">{item.result.name} · {formatSize(item.result.size)}</p>}
     </li>
   )
 }

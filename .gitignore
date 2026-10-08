@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated conversion engine and browser test artifacts
+public/ffmpeg/
+test-results/
+playwright-report/

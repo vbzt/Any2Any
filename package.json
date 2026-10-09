@@ -10,10 +10,12 @@
     "preview": "vite preview",
     "predev": "node scripts/prepare-ffmpeg.mjs",
     "prebuild": "node scripts/prepare-ffmpeg.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "bench:video": "node scripts/benchmark-video.mjs"
   },
   "dependencies": {
     "@ffmpeg/core": "0.12.10",
+    "@ffmpeg/core-mt": "0.12.10",
     "@ffmpeg/ffmpeg": "^0.12.15",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",

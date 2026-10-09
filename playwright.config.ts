@@ -1,6 +1,10 @@
 import { defineConfig } from '@playwright/test'
 
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm'
+const productionPort = process.env.PLAYWRIGHT_PORT || '4173'
+const developmentPort = process.env.PLAYWRIGHT_DEV_PORT || '5174'
+const productionURL = `http://127.0.0.1:${productionPort}`
+const developmentURL = `http://127.0.0.1:${developmentPort}`
 
 export default defineConfig({
   testDir: './tests',
@@ -15,18 +19,18 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   projects: [
-    { name: 'production', use: { baseURL: 'http://127.0.0.1:4173' } },
-    { name: 'development', grep: /all image outputs|jpeg same format|fatal engine failure|typography/, use: { baseURL: 'http://127.0.0.1:5174' } },
+    { name: 'production', use: { baseURL: productionURL } },
+    { name: 'development', grep: /all image outputs|jpeg same format|fatal engine failure|typography|video optimization/, use: { baseURL: developmentURL } },
   ],
   webServer: [
     {
-      command: `${npmCommand} run preview -- --host 127.0.0.1 --port 4173 --strictPort`,
-      url: 'http://127.0.0.1:4173',
+      command: `${npmCommand} run preview -- --host 127.0.0.1 --port ${productionPort} --strictPort`,
+      url: productionURL,
       reuseExistingServer: !process.env.CI,
     },
     {
-      command: `${npmCommand} run dev -- --host 127.0.0.1 --port 5174 --strictPort`,
-      url: 'http://127.0.0.1:5174',
+      command: `${npmCommand} run dev -- --host 127.0.0.1 --port ${developmentPort} --strictPort`,
+      url: developmentURL,
       reuseExistingServer: !process.env.CI,
     },
   ],
